@@ -1,0 +1,31 @@
+
+---
+
+## 4️⃣ GitHub Actions (CI/CD Optional)
+
+You can add CI for Docker build:
+
+### `.github/workflows/docker-build.yml`
+
+```yaml
+name: Docker Build Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build the Docker image
+      run: docker build -t translator-app .

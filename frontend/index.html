@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Swedish ↔ English Translator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4">Translator</h1>
+        <textarea id="input" rows="4" class="w-full border p-2 mb-4" placeholder="Enter text..."></textarea>
+        <select id="direction" class="w-full border p-2 mb-4">
+            <option value="sv-en">Swedish to English</option>
+            <option value="en-sv">English to Swedish</option>
+        </select>
+        <button onclick="translate()" class="bg-blue-500 text-white px-4 py-2 rounded">Translate</button>
+        <p id="output" class="mt-4 text-gray-800 font-semibold"></p>
+    </div>
+
+    <script>
+        async function translate() {
+            const text = document.getElementById("input").value;
+            const direction = document.getElementById("direction").value;
+            const res = await fetch("http://localhost:8000/translate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text, direction })
+            });
+            const data = await res.json();
+            document.getElementById("output").innerText = data.translated;
+        }
+    </script>
+</body>
+
+</html>
